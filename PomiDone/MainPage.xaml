@@ -9,6 +9,14 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-
+        <Button x:Name="button" Content="Button" HorizontalAlignment="Center" Margin="0,656,0,0" VerticalAlignment="Top" Height="132" Width="305" />
+        <TextBlock 
+            x:Name="textBlock" 
+            Text="{Binding TimerTextBlock, UpdateSourceTrigger=PropertyChanged}" 
+            HorizontalAlignment="Center" 
+            Margin="0,297,0,0" 
+            TextWrapping="Wrap" 
+            VerticalAlignment="Top" 
+            FontSize="48"/>
     </Grid>
 </Page>
