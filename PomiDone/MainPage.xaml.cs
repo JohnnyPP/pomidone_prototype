@@ -25,6 +25,8 @@ namespace PomiDone
         public MainPage()
         {
             this.InitializeComponent();
+            var viewModel = new ViewModel.ViewModel();
+            DataContext = viewModel;
         }
     }
 }
