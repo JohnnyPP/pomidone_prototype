@@ -9,7 +9,14 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <Button x:Name="button" Content="Button" HorizontalAlignment="Center" Margin="0,656,0,0" VerticalAlignment="Top" Height="132" Width="305" />
+        <Button x:Name="button" 
+                Content="Start" 
+                HorizontalAlignment="Center" 
+                Margin="0,656,0,0" 
+                VerticalAlignment="Top" 
+                Height="132" 
+                Width="305" 
+                Command="{Binding StartClick}"/>
         <TextBlock 
             x:Name="textBlock" 
             Text="{Binding TimerTextBlock, UpdateSourceTrigger=PropertyChanged}" 

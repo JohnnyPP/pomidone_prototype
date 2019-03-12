@@ -12,13 +12,25 @@ namespace ViewModel
 {
     public class ViewModel : INotifyPropertyChanged
     {
-        private int counter;
+        private string _TimerTextBlock;
 
         public ViewModel()
         {
             ThreadPoolTimer timer = ThreadPoolTimer.CreatePeriodicTimer(TimerHandler, TimeSpan.FromSeconds(1));
+            StartClick = new Helper.ActionCommand(StartClickCommand);
 
+        }
 
+        public Helper.ActionCommand StartClick { get; set; }
+
+        public string TimerTextBlock
+        {
+            get { return _TimerTextBlock; }
+            set
+            {
+                _TimerTextBlock = value;
+                OnPropertyChanged(nameof(TimerTextBlock));
+            }
         }
 
         private async void TimerHandler(ThreadPoolTimer timer)
@@ -31,8 +43,10 @@ namespace ViewModel
                  DateTime datetime = DateTime.Now;
                  TimerTextBlock = datetime.ToString();
              });
-            //counter++;
-            //TimerTextBlock = counter.ToString();
+        }
+
+        private void StartClickCommand()
+        {
         }
 
         #region INotifyPropertyChanged implementation
@@ -44,17 +58,5 @@ namespace ViewModel
         }
 
         #endregion
-
-        private string _TimerTextBlock;
-
-        public string TimerTextBlock
-        {
-            get { return _TimerTextBlock; }
-            set
-            {
-                _TimerTextBlock = value;
-                OnPropertyChanged(nameof(TimerTextBlock));
-            }
-        }
     }
 }
