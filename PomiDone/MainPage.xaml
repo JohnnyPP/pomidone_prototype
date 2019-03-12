@@ -9,6 +9,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
+
         <Button x:Name="button" 
                 Content="Start" 
                 HorizontalAlignment="Center" 
@@ -25,5 +26,28 @@
             TextWrapping="Wrap" 
             VerticalAlignment="Top" 
             FontSize="48"/>
+        
+        <NavigationView x:Name="NavigationViewControl" >
+            <NavigationView.MenuItems>
+                <NavigationViewItem Content="A" x:Name="A" />
+                <NavigationViewItem Content="B" x:Name="B" />
+                <NavigationViewItem Content="C" x:Name="C" />
+            </NavigationView.MenuItems>
+        </NavigationView>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger
+                        MinWindowWidth="{x:Bind NavigationViewControl.CompactModeThresholdWidth}" />
+                    </VisualState.StateTriggers>
+
+                    <VisualState.Setters>
+                        <Setter Target="NavigationViewControl.PaneDisplayMode" Value="Top"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
 </Page>
