@@ -13,25 +13,29 @@ namespace ViewModel
 {
     public class ViewModel : INotifyPropertyChanged
     {
-        private string _TimerTextBlock;
-        private TimeSpan _Basetime;
-        private bool _IsStarted = false;
+        private string _timerTextBlock;
+        private TimeSpan _longTimer;
+        private TimeSpan _shortTimer;
+        private int _longTimerTimeSpanInMinutes = 2;
+        private int _shortTimerTimeSpanInMinutes = 1;
+        private bool _isStarted = false;
 
         public ViewModel()
         {
             ThreadPoolTimer timer = ThreadPoolTimer.CreatePeriodicTimer(TimerHandler, TimeSpan.FromSeconds(1));
             StartClick = new Helper.ActionCommand(StartClickCommand);
-            _Basetime = TimeSpan.FromMinutes(25);
+            _longTimer = TimeSpan.FromMinutes(_longTimerTimeSpanInMinutes);
+            _shortTimer = TimeSpan.FromMinutes(_shortTimerTimeSpanInMinutes);
         }
 
         public Helper.ActionCommand StartClick { get; set; }
 
         public string TimerTextBlock
         {
-            get { return _TimerTextBlock; }
+            get { return _timerTextBlock; }
             set
             {
-                _TimerTextBlock = value;
+                _timerTextBlock = value;
                 OnPropertyChanged(nameof(TimerTextBlock));
             }
         }
@@ -43,15 +47,28 @@ namespace ViewModel
              CoreDispatcherPriority.Normal, () =>
              {
                  // Your UI update code goes here!
-                 TimerTextBlock = _Basetime.ToString(@"m\:ss");
-                 if(_IsStarted)
-                    _Basetime -= TimeSpan.FromSeconds(1);
+                 TimerTextBlock = _longTimer.ToString(@"m\:ss");
+                 if (_isStarted)
+                 {
+                     _longTimer -= TimeSpan.FromSeconds(1);
+                     if (_longTimer <= TimeSpan.Zero)
+                     {
+                         TimerTextBlock = _shortTimer.ToString(@"m\:ss");
+                         _shortTimer -= TimeSpan.FromSeconds(1);
+                         if (_shortTimer <= TimeSpan.Zero)
+                         {
+                             _longTimer = TimeSpan.FromMinutes(_longTimerTimeSpanInMinutes);
+                             _shortTimer = TimeSpan.FromMinutes(_shortTimerTimeSpanInMinutes);
+                         }
+                     }
+                 }
              });
         }
 
         private void StartClickCommand()
         {
-            _IsStarted ^= true;
+            _longTimer = TimeSpan.FromMinutes(_longTimerTimeSpanInMinutes);
+            _isStarted ^= true;
         }
 
         #region INotifyPropertyChanged implementation
