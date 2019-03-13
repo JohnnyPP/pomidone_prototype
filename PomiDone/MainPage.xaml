@@ -26,8 +26,8 @@
             TextWrapping="Wrap" 
             VerticalAlignment="Top" 
             FontSize="48"/>
-        
-        <NavigationView x:Name="NavigationViewControl" >
+
+        <NavigationView x:Name="NavigationViewControl" IsSettingsVisible="True">
             <NavigationView.MenuItems>
                 <NavigationViewItem Content="A" x:Name="A" />
                 <NavigationViewItem Content="B" x:Name="B" />
