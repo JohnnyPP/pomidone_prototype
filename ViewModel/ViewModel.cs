@@ -14,8 +14,9 @@ namespace ViewModel
     public class ViewModel : INotifyPropertyChanged
     {
         private string _timerTextBlock;
-        private TimeSpan _longTimer;
-        private TimeSpan _shortTimer;
+        private TimeSpan _workTimer;
+        private TimeSpan _shortBreakTimer;
+        private TimeSpan _longBreakTimer;
         private int _workTimerTimeSpanInMinutes = 3;
         private int _shortBreakTimerTimeSpanInMinutes = 2;
         private int _longBreakTimerTimeSpanInMinutes = 1;
@@ -32,8 +33,8 @@ namespace ViewModel
         {
             ThreadPoolTimer timer = ThreadPoolTimer.CreatePeriodicTimer(TimerHandler, TimeSpan.FromSeconds(1));
             StartClick = new Helper.ActionCommand(StartClickCommand);
-            _longTimer = TimeSpan.FromMinutes(_workTimerTimeSpanInMinutes);
-            _shortTimer = TimeSpan.FromMinutes(_shortBreakTimerTimeSpanInMinutes);
+            _workTimer = TimeSpan.FromMinutes(_workTimerTimeSpanInMinutes);
+            _shortBreakTimer = TimeSpan.FromMinutes(_shortBreakTimerTimeSpanInMinutes);
         }
 
         public Helper.ActionCommand StartClick { get; set; }
@@ -55,11 +56,11 @@ namespace ViewModel
              CoreDispatcherPriority.Normal, () =>
              {
                  // Your UI update code goes here!
-                 TimerTextBlock = _longTimer.ToString(@"m\:ss");
+                 TimerTextBlock = _workTimer.ToString(@"m\:ss");
                  if (_isStarted)
                  {
-                     _longTimer -= TimeSpan.FromSeconds(1);
-                     if (_longTimer <= TimeSpan.Zero)
+                     _workTimer -= TimeSpan.FromSeconds(1);
+                     if (_workTimer <= TimeSpan.Zero)
                      {
                          _workCounterFast++;
                          if (_workCounterFast == _workTimerTimeSpanInMinutes * 60)
@@ -67,9 +68,9 @@ namespace ViewModel
                              _workCounter++;
                              _workCounterFast = 0;
                          }
-                         TimerTextBlock = _shortTimer.ToString(@"m\:ss");
-                         _shortTimer -= TimeSpan.FromSeconds(1);
-                         if (_shortTimer <= TimeSpan.Zero)
+                         TimerTextBlock = _shortBreakTimer.ToString(@"m\:ss");
+                         _shortBreakTimer -= TimeSpan.FromSeconds(1);
+                         if (_shortBreakTimer <= TimeSpan.Zero)
                          {
                              _shortBreakCounterFast++;
                              if (_shortBreakCounterFast == _shortBreakTimerTimeSpanInMinutes * 60)
@@ -79,8 +80,13 @@ namespace ViewModel
                                  _workCounter++;
                                  _workCounterFast = 0;
                              }
-                             _longTimer = TimeSpan.FromMinutes(_workTimerTimeSpanInMinutes);
-                             _shortTimer = TimeSpan.FromMinutes(_shortBreakTimerTimeSpanInMinutes);
+                             if (_shortBreakCounter == 4)
+                             {
+                                 TimerTextBlock = _shortBreakTimer.ToString(@"m\:ss");
+                                 _shortBreakTimer -= TimeSpan.FromSeconds(1);
+                             }
+                             _workTimer = TimeSpan.FromMinutes(_workTimerTimeSpanInMinutes);
+                             _shortBreakTimer = TimeSpan.FromMinutes(_shortBreakTimerTimeSpanInMinutes);
                          }
                      }
                  }
@@ -89,7 +95,7 @@ namespace ViewModel
 
         private void StartClickCommand()
         {
-            _longTimer = TimeSpan.FromMinutes(_workTimerTimeSpanInMinutes);
+            _workTimer = TimeSpan.FromMinutes(_workTimerTimeSpanInMinutes);
             _isStarted ^= true;
         }
 
