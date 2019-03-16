@@ -32,11 +32,18 @@
         <TextBlock 
             x:Name="WorkTimerTextBlock" 
             Text="{Binding WorkTimerTextBlock, UpdateSourceTrigger=PropertyChanged}" 
-            HorizontalAlignment="Left" 
             Margin="1196,297,0,0" 
             TextWrapping="Wrap" 
             VerticalAlignment="Top" 
             FontSize="48">
+        </TextBlock>
+        <TextBlock 
+            x:Name="ShortTimerTextBlock" 
+            Text="{Binding ShortTimerTextBlock, UpdateSourceTrigger=PropertyChanged}" 
+            Margin="1196,397,0,0" 
+            TextWrapping="Wrap" 
+            VerticalAlignment="Top" 
+            FontSize="48" HorizontalAlignment="Stretch">
         </TextBlock>
     </Grid>
 </Page>

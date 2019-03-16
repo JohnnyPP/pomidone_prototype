@@ -15,6 +15,7 @@ namespace ViewModel
     {
         private string _timerTextBlock;
         private string _workTimerTextBlock;
+        private string _shortTimerTextBlock;
         private TimeSpan _workTimer;
         private TimeSpan _shortBreakTimer;
         private TimeSpan _longBreakTimer;
@@ -61,6 +62,16 @@ namespace ViewModel
             }
         }
 
+        public string ShortTimerTextBlock
+        {
+            get { return _shortTimerTextBlock; }
+            set
+            {
+                _shortTimerTextBlock = value;
+                OnPropertyChanged(nameof(ShortTimerTextBlock));
+            }
+        }
+
         private async void TimerHandler(ThreadPoolTimer timer)
         {
             var dispatcher = Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher;
@@ -70,6 +81,7 @@ namespace ViewModel
                  // Your UI update code goes here!
                  TimerTextBlock = _workTimer.ToString(@"m\:ss");
                  WorkTimerTextBlock = _workCounter.ToString();
+                 ShortTimerTextBlock = _shortBreakCounter.ToString();
                  if (!_isStarted)
                      return;
                  
@@ -94,6 +106,8 @@ namespace ViewModel
                      if (_shortBreakTimer == TimeSpan.Zero)
                      {
                          TimerTextBlock = _shortBreakTimer.ToString(@"m\:ss");
+                         _shortBreakCounter++;
+                         ShortTimerTextBlock = _shortBreakCounter.ToString();
                      }
                      if (_shortBreakTimer < TimeSpan.Zero)
                      { 
