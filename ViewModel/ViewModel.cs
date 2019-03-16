@@ -24,13 +24,9 @@ namespace ViewModel
         private int _shortBreakTimerTimeSpanInMinutes = 1;
         private int _longBreakTimerTimeSpanInMinutes = 2;
         private bool _isStarted = false;
-        private bool _incrementCounter = false;
-
         private int _workCounter;
         private int _zeroCrossingCounter;
-        private int _workCounterFast;
         private int _shortBreakCounter;
-        private int _shortBreakCounterFast;
         private int _longBreakCounter;
         private int _timeSpan;
 
@@ -104,14 +100,7 @@ namespace ViewModel
                  if (_workTimer == TimeSpan.Zero)
                  {
                      TimerTextBlock = _workTimer.ToString(@"m\:ss");
-                     //LongTimerTextBlock = _longBreakCounter.ToString();
-                     //ShortTimerTextBlock = _shortBreakCounter.ToString();
-                     //WorkTimerTextBlock = _workCounter.ToString();
-
-
-
                      _zeroCrossingCounter++;
-
                   
                      if (_zeroCrossingCounter % 2 == 0)
                      {
@@ -131,78 +120,15 @@ namespace ViewModel
 
                          if (_workCounter % 4 == 0)
                          {
-                             //_longBreakCounter++;
-                             //_workCounter++;
-                             //LongTimerTextBlock = _longBreakCounter.ToString();
-                             //WorkTimerTextBlock = _workCounter.ToString();
                              _timeSpan = _longBreakTimerTimeSpanInMinutes;
                          }
                          else
                          {
-                             //WorkTimerTextBlock = _workCounter.ToString();
                              _timeSpan = _shortBreakTimerTimeSpanInMinutes;
                          }
                      }
-                 
-
-
                      _workTimer = TimeSpan.FromMinutes(_timeSpan);
                  }
-
-
-
-
-                 //if (_workTimer < TimeSpan.Zero)
-                 //{ 
-                 //    TimerTextBlock = _shortBreakTimer.ToString(@"m\:ss");
-                 //    //_workCounterFast++;
-                 //    //if (_workCounterFast == _workTimerTimeSpanInMinutes * 60)
-                 //    //{
-                 //    //    _workCounter++;
-                 //    //    _workCounterFast = 0;
-                 //    //}
-                 //    _shortBreakTimer -= TimeSpan.FromSeconds(1);
-                 //    if (_shortBreakTimer == TimeSpan.Zero)
-                 //    {
-                 //        TimerTextBlock = _shortBreakTimer.ToString(@"m\:ss");
-                 //        _shortBreakCounter++;
-                 //        ShortTimerTextBlock = _shortBreakCounter.ToString();
-                 //    }
-                 //    if (_shortBreakTimer < TimeSpan.Zero)
-                 //    { 
-                 //        _shortBreakCounterFast++;
-                 //        if (_shortBreakCounterFast == _shortBreakTimerTimeSpanInMinutes * 60)
-                 //        {
-                 //            if (_shortBreakCounter == 2)
-                 //            {
-                 //                TimerTextBlock = _longBreakTimer.ToString(@"m\:ss");
-                 //                _longBreakTimer -= TimeSpan.FromSeconds(1);
-                 //                if (_longBreakTimer <= TimeSpan.Zero)
-                 //                {
-                 //                    _workTimer = TimeSpan.FromMinutes(_workTimerTimeSpanInMinutes);
-                 //                    _shortBreakTimer = TimeSpan.FromMinutes(_shortBreakTimerTimeSpanInMinutes);
-                 //                    _longBreakTimer = TimeSpan.FromMinutes(_longBreakTimerTimeSpanInMinutes);
-                 //                    _shortBreakCounter = 0;
-                 //                    _shortBreakCounterFast = 0;
-                 //                    _workCounter = 0;
-                 //                    _workCounterFast = 0;
-                 //                }
-                 //            }
-                 //            else
-                 //            {
-                 //                _shortBreakCounter++;
-                 //                _shortBreakCounterFast = 0;
-                 //                _workCounter++;
-                 //                _workCounterFast = 0;
-                 //            }
-                 //        }
-                 //        else
-                 //        {
-                 //            _workTimer = TimeSpan.FromMinutes(_workTimerTimeSpanInMinutes);
-                 //            _shortBreakTimer = TimeSpan.FromMinutes(_shortBreakTimerTimeSpanInMinutes);
-                 //        }
-                 //    }
-                 //}
              });
         }
 
