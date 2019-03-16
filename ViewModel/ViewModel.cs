@@ -104,29 +104,42 @@ namespace ViewModel
                  if (_workTimer == TimeSpan.Zero)
                  {
                      TimerTextBlock = _workTimer.ToString(@"m\:ss");
+                     //LongTimerTextBlock = _longBreakCounter.ToString();
+                     //ShortTimerTextBlock = _shortBreakCounter.ToString();
+                     //WorkTimerTextBlock = _workCounter.ToString();
 
 
 
                      _zeroCrossingCounter++;
 
-                     if (_zeroCrossingCounter % 8 == 0)
+                  
+                     if (_zeroCrossingCounter % 2 == 0)
                      {
-                         _longBreakCounter++;
-                         LongTimerTextBlock = _longBreakCounter.ToString();
-                         _timeSpan = _longBreakTimerTimeSpanInMinutes;
-                     }
-                     else
-                     {
-                         if (_zeroCrossingCounter % 2 == 0)
+                         if (_workCounter % 4 == 0)
                          {
-                             _shortBreakCounter++;
-                             ShortTimerTextBlock = _shortBreakCounter.ToString();
-                             _timeSpan = _workTimerTimeSpanInMinutes;
+                             _longBreakCounter++;
                          }
                          else
                          {
-                             _workCounter++;
-                             WorkTimerTextBlock = _workCounter.ToString();
+                             _shortBreakCounter++;
+                         }
+                         _timeSpan = _workTimerTimeSpanInMinutes;
+                     }
+                     else
+                     {
+                         _workCounter++;
+
+                         if (_workCounter % 4 == 0)
+                         {
+                             //_longBreakCounter++;
+                             //_workCounter++;
+                             //LongTimerTextBlock = _longBreakCounter.ToString();
+                             //WorkTimerTextBlock = _workCounter.ToString();
+                             _timeSpan = _longBreakTimerTimeSpanInMinutes;
+                         }
+                         else
+                         {
+                             //WorkTimerTextBlock = _workCounter.ToString();
                              _timeSpan = _shortBreakTimerTimeSpanInMinutes;
                          }
                      }
