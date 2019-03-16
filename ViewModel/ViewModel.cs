@@ -76,16 +76,20 @@ namespace ViewModel
                          _shortBreakCounterFast++;
                          if (_shortBreakCounterFast == _shortBreakTimerTimeSpanInMinutes * 60)
                          {
-                             _shortBreakCounter++;
-                             _shortBreakCounterFast = 0;
-                             _workCounter++;
-                             _workCounterFast = 0;
+                             if (_shortBreakCounter == 4)
+                             {
+                                 TimerTextBlock = _longBreakTimer.ToString(@"m\:ss");
+                                 _longBreakTimer -= TimeSpan.FromSeconds(1);
+                             }
+                             else
+                             {
+                                 _shortBreakCounter++;
+                                 _shortBreakCounterFast = 0;
+                                 _workCounter++;
+                                 _workCounterFast = 0;
+                             }
                          }
-                         if (_shortBreakCounter == 4)
-                         {
-                             TimerTextBlock = _shortBreakTimer.ToString(@"m\:ss");
-                             _shortBreakTimer -= TimeSpan.FromSeconds(1);
-                         }
+                        
                          _workTimer = TimeSpan.FromMinutes(_workTimerTimeSpanInMinutes);
                          _shortBreakTimer = TimeSpan.FromMinutes(_shortBreakTimerTimeSpanInMinutes);
                      }
