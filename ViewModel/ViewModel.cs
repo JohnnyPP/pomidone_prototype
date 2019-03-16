@@ -57,37 +57,37 @@ namespace ViewModel
              {
                  // Your UI update code goes here!
                  TimerTextBlock = _workTimer.ToString(@"m\:ss");
-                 if (_isStarted)
+                 if (!_isStarted)
+                     return;
+                 
+                 _workTimer -= TimeSpan.FromSeconds(1);
+                 if (_workTimer <= TimeSpan.Zero)
                  {
-                     _workTimer -= TimeSpan.FromSeconds(1);
-                     if (_workTimer <= TimeSpan.Zero)
+                     _workCounterFast++;
+                     if (_workCounterFast == _workTimerTimeSpanInMinutes * 60)
                      {
-                         _workCounterFast++;
-                         if (_workCounterFast == _workTimerTimeSpanInMinutes * 60)
+                         _workCounter++;
+                         _workCounterFast = 0;
+                     }
+                     TimerTextBlock = _shortBreakTimer.ToString(@"m\:ss");
+                     _shortBreakTimer -= TimeSpan.FromSeconds(1);
+                     if (_shortBreakTimer <= TimeSpan.Zero)
+                     {
+                         _shortBreakCounterFast++;
+                         if (_shortBreakCounterFast == _shortBreakTimerTimeSpanInMinutes * 60)
                          {
+                             _shortBreakCounter++;
+                             _shortBreakCounterFast = 0;
                              _workCounter++;
                              _workCounterFast = 0;
                          }
-                         TimerTextBlock = _shortBreakTimer.ToString(@"m\:ss");
-                         _shortBreakTimer -= TimeSpan.FromSeconds(1);
-                         if (_shortBreakTimer <= TimeSpan.Zero)
+                         if (_shortBreakCounter == 4)
                          {
-                             _shortBreakCounterFast++;
-                             if (_shortBreakCounterFast == _shortBreakTimerTimeSpanInMinutes * 60)
-                             {
-                                 _shortBreakCounter++;
-                                 _shortBreakCounterFast = 0;
-                                 _workCounter++;
-                                 _workCounterFast = 0;
-                             }
-                             if (_shortBreakCounter == 4)
-                             {
-                                 TimerTextBlock = _shortBreakTimer.ToString(@"m\:ss");
-                                 _shortBreakTimer -= TimeSpan.FromSeconds(1);
-                             }
-                             _workTimer = TimeSpan.FromMinutes(_workTimerTimeSpanInMinutes);
-                             _shortBreakTimer = TimeSpan.FromMinutes(_shortBreakTimerTimeSpanInMinutes);
+                             TimerTextBlock = _shortBreakTimer.ToString(@"m\:ss");
+                             _shortBreakTimer -= TimeSpan.FromSeconds(1);
                          }
+                         _workTimer = TimeSpan.FromMinutes(_workTimerTimeSpanInMinutes);
+                         _shortBreakTimer = TimeSpan.FromMinutes(_shortBreakTimerTimeSpanInMinutes);
                      }
                  }
              });
