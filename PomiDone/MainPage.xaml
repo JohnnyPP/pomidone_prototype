@@ -45,5 +45,12 @@
             VerticalAlignment="Top" 
             FontSize="48" HorizontalAlignment="Stretch">
         </TextBlock>
+        <TextBlock 
+            x:Name="LongTimerTextBlock" 
+            Text="{Binding LongTimerTextBlock, UpdateSourceTrigger=PropertyChanged}" 
+            Margin="1196,500,0,0" 
+            TextWrapping="Wrap" 
+            VerticalAlignment="Top" 
+            FontSize="48"/>
     </Grid>
 </Page>

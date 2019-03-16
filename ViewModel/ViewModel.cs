@@ -16,10 +16,11 @@ namespace ViewModel
         private string _timerTextBlock;
         private string _workTimerTextBlock;
         private string _shortTimerTextBlock;
+        private string _longTimerTextBlock;
         private TimeSpan _workTimer;
         private TimeSpan _shortBreakTimer;
         private TimeSpan _longBreakTimer;
-        private int _workTimerTimeSpanInMinutes = 2;
+        private int _workTimerTimeSpanInMinutes = 3;
         private int _shortBreakTimerTimeSpanInMinutes = 1;
         private int _longBreakTimerTimeSpanInMinutes = 2;
         private bool _isStarted = false;
@@ -74,6 +75,16 @@ namespace ViewModel
             }
         }
 
+        public string LongTimerTextBlock
+        {
+            get { return _longTimerTextBlock; }
+            set
+            {
+                _longTimerTextBlock = value;
+                OnPropertyChanged(nameof(LongTimerTextBlock));
+            }
+        }
+
         private async void TimerHandler(ThreadPoolTimer timer)
         {
             var dispatcher = Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher;
@@ -84,6 +95,7 @@ namespace ViewModel
                  TimerTextBlock = _workTimer.ToString(@"m\:ss");
                  WorkTimerTextBlock = _workCounter.ToString();
                  ShortTimerTextBlock = _shortBreakCounter.ToString();
+                 LongTimerTextBlock = _longBreakCounter.ToString();
                  if (!_isStarted)
                      return;
                  
@@ -97,18 +109,29 @@ namespace ViewModel
 
                      _zeroCrossingCounter++;
 
-                     if (_zeroCrossingCounter % 2 == 0)
+                     if (_zeroCrossingCounter % 8 == 0)
                      {
-                         _shortBreakCounter++;
-                         ShortTimerTextBlock = _shortBreakCounter.ToString();
-                         _timeSpan = _workTimerTimeSpanInMinutes;
+                         _longBreakCounter++;
+                         LongTimerTextBlock = _longBreakCounter.ToString();
+                         _timeSpan = _longBreakTimerTimeSpanInMinutes;
                      }
                      else
                      {
-                         _workCounter++;
-                         WorkTimerTextBlock = _workCounter.ToString();
-                         _timeSpan = _shortBreakTimerTimeSpanInMinutes;
+                         if (_zeroCrossingCounter % 2 == 0)
+                         {
+                             _shortBreakCounter++;
+                             ShortTimerTextBlock = _shortBreakCounter.ToString();
+                             _timeSpan = _workTimerTimeSpanInMinutes;
+                         }
+                         else
+                         {
+                             _workCounter++;
+                             WorkTimerTextBlock = _workCounter.ToString();
+                             _timeSpan = _shortBreakTimerTimeSpanInMinutes;
+                         }
                      }
+                 
+
 
                      _workTimer = TimeSpan.FromMinutes(_timeSpan);
                  }
