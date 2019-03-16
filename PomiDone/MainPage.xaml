@@ -11,15 +11,14 @@
     <Grid>
         <Button 
             x:Name="button" 
-            Content="Start" 
+            Content="{Binding ButtonStartPauseResumeContent, UpdateSourceTrigger=PropertyChanged}"
             HorizontalAlignment="Center" 
             Margin="0,656,0,0" 
             VerticalAlignment="Top" 
             Height="132" 
             Width="305" 
-            Command="{Binding StartClick}">
+            Command="{Binding StartPauseResumeClick}">
         </Button>
-
         <TextBlock 
             x:Name="textBlock" 
             Text="{Binding TimerTextBlock, UpdateSourceTrigger=PropertyChanged}" 
@@ -51,6 +50,7 @@
             Margin="1196,500,0,0" 
             TextWrapping="Wrap" 
             VerticalAlignment="Top" 
-            FontSize="48"/>
+            FontSize="48">
+        </TextBlock>
     </Grid>
 </Page>

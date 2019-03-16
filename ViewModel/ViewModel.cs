@@ -17,6 +17,7 @@ namespace ViewModel
         private string _workTimerTextBlock;
         private string _shortTimerTextBlock;
         private string _longTimerTextBlock;
+        private string _buttonStartPauseResumeContent;
         private TimeSpan _workTimer;
         private TimeSpan _shortBreakTimer;
         private TimeSpan _longBreakTimer;
@@ -33,13 +34,14 @@ namespace ViewModel
         public ViewModel()
         {
             ThreadPoolTimer timer = ThreadPoolTimer.CreatePeriodicTimer(TimerHandler, TimeSpan.FromSeconds(1));
-            StartClick = new Helper.ActionCommand(StartClickCommand);
+            StartPauseResumeClick = new Helper.ActionCommand(StartPauseResumeClickCommand);
             _workTimer = TimeSpan.FromMinutes(_workTimerTimeSpanInMinutes);
             _shortBreakTimer = TimeSpan.FromMinutes(_shortBreakTimerTimeSpanInMinutes);
             _longBreakTimer = TimeSpan.FromMinutes(_longBreakTimerTimeSpanInMinutes);
+            ButtonStartPauseResumeContent = "Start";
         }
 
-        public Helper.ActionCommand StartClick { get; set; }
+        public Helper.ActionCommand StartPauseResumeClick { get; set; }
 
         public string TimerTextBlock
         {
@@ -78,6 +80,16 @@ namespace ViewModel
             {
                 _longTimerTextBlock = value;
                 OnPropertyChanged(nameof(LongTimerTextBlock));
+            }
+        }
+
+        public string ButtonStartPauseResumeContent
+        {
+            get { return _buttonStartPauseResumeContent; }
+            set
+            {
+                _buttonStartPauseResumeContent = value;
+                OnPropertyChanged(nameof(ButtonStartPauseResumeContent));
             }
         }
 
@@ -132,10 +144,17 @@ namespace ViewModel
              });
         }
 
-        private void StartClickCommand()
+        private void StartPauseResumeClickCommand()
         {
-            _workTimer = TimeSpan.FromMinutes(_workTimerTimeSpanInMinutes);
             _isStarted ^= true;
+            if (_isStarted)
+            {
+                ButtonStartPauseResumeContent = "Pause";
+            }
+            else
+            {
+                ButtonStartPauseResumeContent = "Resume";
+            }
         }
 
         #region INotifyPropertyChanged implementation
