@@ -14,6 +14,7 @@ namespace ViewModel
     public class ViewModel : INotifyPropertyChanged
     {
         private string _timerTextBlock;
+        private string _workTimerTextBlock;
         private TimeSpan _workTimer;
         private TimeSpan _shortBreakTimer;
         private TimeSpan _longBreakTimer;
@@ -50,6 +51,16 @@ namespace ViewModel
             }
         }
 
+        public string WorkTimerTextBlock
+        {
+            get { return _workTimerTextBlock; }
+            set
+            {
+                _workTimerTextBlock = value;
+                OnPropertyChanged(nameof(WorkTimerTextBlock));
+            }
+        }
+
         private async void TimerHandler(ThreadPoolTimer timer)
         {
             var dispatcher = Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher;
@@ -58,6 +69,7 @@ namespace ViewModel
              {
                  // Your UI update code goes here!
                  TimerTextBlock = _workTimer.ToString(@"m\:ss");
+                 WorkTimerTextBlock = _workCounter.ToString();
                  if (!_isStarted)
                      return;
                  
@@ -66,16 +78,18 @@ namespace ViewModel
                  if (_workTimer == TimeSpan.Zero)
                  {
                      TimerTextBlock = _workTimer.ToString(@"m\:ss");
+                     _workCounter++;
+                     WorkTimerTextBlock = _workCounter.ToString();
                  }
                  if (_workTimer < TimeSpan.Zero)
                  { 
                      TimerTextBlock = _shortBreakTimer.ToString(@"m\:ss");
-                     _workCounterFast++;
-                     if (_workCounterFast == _workTimerTimeSpanInMinutes * 60)
-                     {
-                         _workCounter++;
-                         _workCounterFast = 0;
-                     }
+                     //_workCounterFast++;
+                     //if (_workCounterFast == _workTimerTimeSpanInMinutes * 60)
+                     //{
+                     //    _workCounter++;
+                     //    _workCounterFast = 0;
+                     //}
                      _shortBreakTimer -= TimeSpan.FromSeconds(1);
                      if (_shortBreakTimer == TimeSpan.Zero)
                      {
