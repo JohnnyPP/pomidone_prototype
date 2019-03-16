@@ -17,9 +17,9 @@ namespace ViewModel
         private TimeSpan _workTimer;
         private TimeSpan _shortBreakTimer;
         private TimeSpan _longBreakTimer;
-        private int _workTimerTimeSpanInMinutes = 3;
-        private int _shortBreakTimerTimeSpanInMinutes = 2;
-        private int _longBreakTimerTimeSpanInMinutes = 1;
+        private int _workTimerTimeSpanInMinutes = 2;
+        private int _shortBreakTimerTimeSpanInMinutes = 1;
+        private int _longBreakTimerTimeSpanInMinutes = 2;
         private bool _isStarted = false;
         private bool _incrementCounter = false;
 
@@ -35,6 +35,7 @@ namespace ViewModel
             StartClick = new Helper.ActionCommand(StartClickCommand);
             _workTimer = TimeSpan.FromMinutes(_workTimerTimeSpanInMinutes);
             _shortBreakTimer = TimeSpan.FromMinutes(_shortBreakTimerTimeSpanInMinutes);
+            _longBreakTimer = TimeSpan.FromMinutes(_longBreakTimerTimeSpanInMinutes);
         }
 
         public Helper.ActionCommand StartClick { get; set; }
@@ -61,8 +62,13 @@ namespace ViewModel
                      return;
                  
                  _workTimer -= TimeSpan.FromSeconds(1);
-                 if (_workTimer <= TimeSpan.Zero)
+                 TimerTextBlock = _workTimer.ToString(@"m\:ss");
+                 if (_workTimer == TimeSpan.Zero)
                  {
+                     TimerTextBlock = _workTimer.ToString(@"m\:ss");
+                 }
+                 if (_workTimer < TimeSpan.Zero)
+                 { 
                      _workCounterFast++;
                      if (_workCounterFast == _workTimerTimeSpanInMinutes * 60)
                      {
@@ -71,15 +77,27 @@ namespace ViewModel
                      }
                      TimerTextBlock = _shortBreakTimer.ToString(@"m\:ss");
                      _shortBreakTimer -= TimeSpan.FromSeconds(1);
+                     TimerTextBlock = _shortBreakTimer.ToString(@"m\:ss");
                      if (_shortBreakTimer <= TimeSpan.Zero)
                      {
+                         TimerTextBlock = _shortBreakTimer.ToString(@"m\:ss");
                          _shortBreakCounterFast++;
                          if (_shortBreakCounterFast == _shortBreakTimerTimeSpanInMinutes * 60)
                          {
-                             if (_shortBreakCounter == 4)
+                             if (_shortBreakCounter == 2)
                              {
                                  TimerTextBlock = _longBreakTimer.ToString(@"m\:ss");
                                  _longBreakTimer -= TimeSpan.FromSeconds(1);
+                                 if (_longBreakTimer <= TimeSpan.Zero)
+                                 {
+                                     _workTimer = TimeSpan.FromMinutes(_workTimerTimeSpanInMinutes);
+                                     _shortBreakTimer = TimeSpan.FromMinutes(_shortBreakTimerTimeSpanInMinutes);
+                                     _longBreakTimer = TimeSpan.FromMinutes(_longBreakTimerTimeSpanInMinutes);
+                                     _shortBreakCounter = 0;
+                                     _shortBreakCounterFast = 0;
+                                     _workCounter = 0;
+                                     _workCounterFast = 0;
+                                 }
                              }
                              else
                              {
@@ -89,9 +107,11 @@ namespace ViewModel
                                  _workCounterFast = 0;
                              }
                          }
-                        
-                         _workTimer = TimeSpan.FromMinutes(_workTimerTimeSpanInMinutes);
-                         _shortBreakTimer = TimeSpan.FromMinutes(_shortBreakTimerTimeSpanInMinutes);
+                         else
+                         {
+                             _workTimer = TimeSpan.FromMinutes(_workTimerTimeSpanInMinutes);
+                             _shortBreakTimer = TimeSpan.FromMinutes(_shortBreakTimerTimeSpanInMinutes);
+                         }
                      }
                  }
              });
