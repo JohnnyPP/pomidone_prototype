@@ -9,48 +9,49 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <Button 
-            x:Name="button" 
-            Content="{Binding ButtonStartPauseResumeContent, UpdateSourceTrigger=PropertyChanged}"
-            HorizontalAlignment="Center" 
-            Margin="0,656,0,0" 
-            VerticalAlignment="Top" 
-            Height="132" 
-            Width="305" 
-            Command="{Binding StartPauseResumeClick}">
-        </Button>
-        <TextBlock 
-            x:Name="textBlock" 
-            Text="{Binding TimerTextBlock, UpdateSourceTrigger=PropertyChanged}" 
-            HorizontalAlignment="Center" 
-            Margin="0,297,0,0" 
-            TextWrapping="Wrap" 
-            VerticalAlignment="Top" 
-            FontSize="48">
-        </TextBlock>
-        <TextBlock 
-            x:Name="WorkTimerTextBlock" 
-            Text="{Binding WorkTimerTextBlock, UpdateSourceTrigger=PropertyChanged}" 
-            Margin="1196,297,0,0" 
-            TextWrapping="Wrap" 
-            VerticalAlignment="Top" 
-            FontSize="48">
-        </TextBlock>
-        <TextBlock 
-            x:Name="ShortTimerTextBlock" 
-            Text="{Binding ShortTimerTextBlock, UpdateSourceTrigger=PropertyChanged}" 
-            Margin="1196,397,0,0" 
-            TextWrapping="Wrap" 
-            VerticalAlignment="Top" 
-            FontSize="48" HorizontalAlignment="Stretch">
-        </TextBlock>
-        <TextBlock 
-            x:Name="LongTimerTextBlock" 
-            Text="{Binding LongTimerTextBlock, UpdateSourceTrigger=PropertyChanged}" 
-            Margin="1196,500,0,0" 
-            TextWrapping="Wrap" 
-            VerticalAlignment="Top" 
-            FontSize="48">
-        </TextBlock>
+        <StackPanel>
+            <TextBlock 
+                x:Name="textBlock" 
+                Text="{Binding TimerTextBlock, UpdateSourceTrigger=PropertyChanged}" 
+                HorizontalAlignment="Center" 
+                TextWrapping="Wrap" 
+                VerticalAlignment="Top" 
+                FontSize="48">
+            </TextBlock>
+            <TextBlock 
+                x:Name="WorkTimerTextBlock" 
+                Text="{Binding WorkTimerTextBlock, UpdateSourceTrigger=PropertyChanged}" 
+                HorizontalAlignment="Center" 
+                TextWrapping="Wrap" 
+                VerticalAlignment="Top" 
+                ToolTipService.ToolTip="Work counter"
+                FontSize="48"/>
+            <TextBlock 
+                x:Name="ShortTimerTextBlock" 
+                Text="{Binding ShortTimerTextBlock, UpdateSourceTrigger=PropertyChanged}" 
+                HorizontalAlignment="Center" 
+                TextWrapping="Wrap" 
+                VerticalAlignment="Center"
+                ToolTipService.ToolTip="Short break counter"
+                FontSize="48"/>
+            <TextBlock 
+                x:Name="LongTimerTextBlock" 
+                Text="{Binding LongTimerTextBlock, UpdateSourceTrigger=PropertyChanged}" 
+                HorizontalAlignment="Center" 
+                TextWrapping="Wrap" 
+                VerticalAlignment="Top" 
+                ToolTipService.ToolTip="Long break counter"
+                FontSize="48"/>
+            <Button 
+                x:Name="button" 
+                Content="{Binding ButtonStartPauseResumeContent, UpdateSourceTrigger=PropertyChanged}"
+                HorizontalAlignment="Center" 
+                VerticalAlignment="Top" 
+                Height="100" 
+                Width="250" 
+                FontSize="48"
+                Command="{Binding StartPauseResumeClick}">
+            </Button>
+        </StackPanel>
     </Grid>
 </Page>
