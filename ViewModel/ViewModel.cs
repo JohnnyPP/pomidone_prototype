@@ -35,6 +35,7 @@ namespace ViewModel
         {
             ThreadPoolTimer timer = ThreadPoolTimer.CreatePeriodicTimer(TimerHandler, TimeSpan.FromSeconds(1));
             StartPauseResumeClick = new Helper.ActionCommand(StartPauseResumeClickCommand);
+            ResetClick = new Helper.ActionCommand(ResetClickCommand);
             _workTimer = TimeSpan.FromMinutes(_workTimerTimeSpanInMinutes);
             _shortBreakTimer = TimeSpan.FromMinutes(_shortBreakTimerTimeSpanInMinutes);
             _longBreakTimer = TimeSpan.FromMinutes(_longBreakTimerTimeSpanInMinutes);
@@ -42,6 +43,7 @@ namespace ViewModel
         }
 
         public Helper.ActionCommand StartPauseResumeClick { get; set; }
+        public Helper.ActionCommand ResetClick { get; set; }
 
         public string TimerTextBlock
         {
@@ -155,6 +157,19 @@ namespace ViewModel
             {
                 ButtonStartPauseResumeContent = "Resume";
             }
+        }
+
+        private void ResetClickCommand()
+        {
+            _isStarted = false;
+            ButtonStartPauseResumeContent = "Start";
+            _workTimer = TimeSpan.FromMinutes(_workTimerTimeSpanInMinutes);
+            _shortBreakTimer = TimeSpan.FromMinutes(_shortBreakTimerTimeSpanInMinutes);
+            _longBreakTimer = TimeSpan.FromMinutes(_longBreakTimerTimeSpanInMinutes);
+            _workCounter = 0;
+            _zeroCrossingCounter = 0;
+            _shortBreakCounter = 0;
+            _longBreakCounter = 0;
         }
 
         #region INotifyPropertyChanged implementation
